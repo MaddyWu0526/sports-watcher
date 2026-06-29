@@ -101,6 +101,8 @@
     #refresh-btn:hover { background: rgba(255,255,255,0.25); color: #ffffff; border-color: rgba(255,255,255,0.5); }
     #refresh-btn:disabled { opacity: 0.5; }
 
+    /* ── Filter bar ── */
+
     /* ── Add-sport tab button ── */
     .tab-add {
       background: none;
@@ -288,12 +290,16 @@
       align-items: center;
       justify-content: center;
       background: var(--live);
-      color: #000;
+      color: #fff;
       font-size: 10px;
       font-weight: 700;
       width: 16px;
       height: 16px;
       border-radius: 50%;
+    }
+    .tab.active .live-count {
+      background: #ffffff;
+      color: #6d28d9;
     }
 
     /* ── Main ── */
@@ -317,9 +323,13 @@
     }
     .card.clickable { cursor: pointer; }
     .card.clickable:hover { transform: translateY(-2px); }
-    .card.is-live { border-color: var(--live); }
     [data-theme="light"] .card { border-color: transparent; }
-    [data-theme="light"] .card.is-live { border-color: var(--live); }
+    .card.is-live {
+      border-color: transparent;
+      background:
+        linear-gradient(var(--surface), var(--surface)) padding-box,
+        linear-gradient(135deg, #6d28d9, #9333ea) border-box;
+    }
 
     .card-top {
       padding: 10px 16px;
@@ -330,7 +340,7 @@
       position: relative;
       background: var(--bg);
     }
-    [data-theme="light"] .card-top { background: #f3f4f6; }
+    [data-theme="light"] .card-top { background: #e2e5ea; }
 
     .live-badge {
       display: flex;
@@ -550,83 +560,49 @@
     }
 
     /* ── Tennis cards ── */
-    .tennis-meta {
-      padding: 8px 16px 6px;
-      border-bottom: 1px solid var(--border);
+    /* ── Tennis card ── */
+    .tennis-meta-inline {
+      font-size: 12px; color: var(--muted);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
-    .tennis-tournament {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: block;
+    .tennis-row {
+      display: flex; align-items: center;
+      padding: 8px 14px; gap: 6px;
     }
-    .tennis-grouping {
-      font-size: 10px;
-      color: var(--muted);
-      display: block;
-      margin-top: 1px;
-    }
-    /* ── Tennis score table ── */
-    .tennis-score-table {
-      width: 100%;
-      border-collapse: collapse;
-      padding: 0 16px 14px;
-      display: table;
-    }
-    .tennis-score-table td, .tennis-score-table th {
-      padding: 5px 6px;
-      font-variant-numeric: tabular-nums;
-    }
-    .tennis-score-table th {
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--muted);
-      text-align: center;
-      opacity: 0.6;
-      letter-spacing: 0.4px;
-      padding-bottom: 4px;
-    }
-    .tennis-score-table th.th-name { text-align: left; }
+    .tennis-row + .tennis-row { border-top: 1px solid var(--border); }
     .ts-flag {
-      width: 22px; height: 15px;
-      object-fit: cover; border-radius: 2px;
-      vertical-align: middle; margin-right: 6px;
+      width: 22px; height: 15px; object-fit: cover;
+      border-radius: 2px; flex-shrink: 0;
     }
     .ts-flag-ph {
-      display: inline-block;
       width: 22px; height: 15px;
-      background: var(--border); border-radius: 2px;
-      vertical-align: middle; margin-right: 6px;
+      background: var(--border); border-radius: 2px; flex-shrink: 0;
+    }
+    .ts-seed {
+      font-size: 10px; font-weight: 600; color: var(--muted);
+      width: 18px; text-align: right; flex-shrink: 0;
     }
     .ts-name {
-      font-size: 13px; color: var(--muted);
+      flex: 1; font-size: 13px; color: var(--muted);
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-      max-width: 120px;
+      min-width: 0;
     }
     .ts-name.winner { color: var(--text); font-weight: 600; }
-    .ts-serving { font-size: 7px; color: var(--live); vertical-align: middle; margin-left: 4px; }
+    .ts-scores { display: flex; gap: 3px; align-items: center; flex-shrink: 0; }
     .ts-set {
-      font-size: 15px; font-weight: 600;
-      color: var(--muted); text-align: center; min-width: 22px;
+      font-size: 13px; font-weight: 600; color: var(--muted);
+      width: 16px; text-align: center; font-variant-numeric: tabular-nums;
     }
     .ts-set.won { color: var(--text); }
-    .ts-set.current { color: var(--accent); font-weight: 700; }
+    .ts-set sup { font-size: 8px; font-weight: 400; }
     .ts-pts {
-      font-size: 13px; font-weight: 700;
-      color: var(--accent); text-align: center; min-width: 28px;
+      font-size: 11px; font-weight: 700; color: var(--accent);
+      width: 24px; text-align: right; font-variant-numeric: tabular-nums;
+      margin-left: 6px; flex-shrink: 0; line-height: 1;
     }
-    .tennis-court {
-      padding: 0 16px 10px;
-      font-size: 10px; color: var(--muted); opacity: 0.7;
-    }
-    .tennis-court {
-      padding: 0 16px 10px;
-      font-size: 10px;
-      color: var(--muted);
-      opacity: 0.7;
+    .ts-ball {
+      width: 14px; flex-shrink: 0;
+      font-size: 11px; line-height: 1;
     }
 
     /* ── Date strip ── */
@@ -771,6 +747,7 @@
 <div class="nav-wrap"><nav id="tabs"></nav></div>
 <div class="date-strip" id="date-strip"></div>
 
+
 <main>
   <div id="content"></div>
   <div class="countdown" id="countdown-wrap">
@@ -818,7 +795,7 @@ function buildSportsMap(keys) {
   return map;
 }
 
-const DEFAULT_SPORT_KEYS = ['nba', 'wnba', 'fifa'];
+const DEFAULT_SPORT_KEYS = ['fifa', 'nba', 'wnba'];
 let activeSportKeys = JSON.parse(localStorage.getItem('active-sports') || 'null') || [...DEFAULT_SPORT_KEYS];
 let SPORTS_MAP = buildSportsMap(activeSportKeys);
 
@@ -851,7 +828,8 @@ let sportOrder = (() => {
   }
   return [...activeSportKeys];
 })();
-let active = sportOrder[0];
+const savedActive = localStorage.getItem('active-tab');
+let active = (savedActive && sportOrder.includes(savedActive)) ? savedActive : sportOrder[0];
 let scoreCache = {};
 let statsCache = {};
 let liveCount = {};
@@ -953,6 +931,7 @@ function renderTabs() {
 
 function renderContent() {
   const el = document.getElementById('content');
+
   const cached = scoreCache[`${active}-${selectedDate}`];
 
   if (!cached) {
@@ -999,12 +978,32 @@ function renderTennisCard(event) {
   const fullDetail  = event.status.type.detail || '';
   const shortDetail = event.status.type.shortDetail || fullDetail;
 
-  // Try to extract current game point score (e.g. "40-30", "Deuce", "Ad")
-  // ESPN often includes it in the detail string like "2nd Set, 4-3 (40-30)"
-  let gameScore = '';
-  if (isLive) {
-    const ptMatch = fullDetail.match(/\(([^)]+)\)\s*$/) || fullDetail.match(/(Deuce|Ad[- ]\w+|[0-9A-]+[-–][0-9A]+)\s*$/i);
-    if (ptMatch) gameScore = ptMatch[1];
+  // Build score data — prefer Sofascore for live matches
+  const sofa = t.sofa;
+  let p1Pts = '';  // individual game points per player
+  let p2Pts = '';
+  let sofaSets = null;
+
+  if (isLive && sofa) {
+    const hs = sofa.homeScore;
+    const as = sofa.awayScore;
+    // Individual game points (Sofascore: 0=0, 1=15, 2=30, 3=40, 50=Ad)
+    p1Pts = sofaPts(hs?.point);
+    p2Pts = sofaPts(as?.point);
+    // Build set array from period fields
+    const periods = Object.keys(hs || {})
+      .filter(k => /^period\d+$/.test(k))
+      .sort((a, b) => parseInt(a.slice(6)) - parseInt(b.slice(6)));
+    if (periods.length) {
+      sofaSets = periods.map(p => ({
+        h: hs[p], a: as?.[p],
+        tb_h: hs[`${p}TieBreak`] ?? null,
+        tb_a: as?.[`${p}TieBreak`] ?? null,
+      }));
+      if (hs?.current != null) {
+        sofaSets.push({ h: hs.current, a: as?.current, current: true });
+      }
+    }
   }
 
   const statusLabel = isPre ? fmtSydney(event.date) : shortDetail;
@@ -1014,7 +1013,7 @@ function renderTennisCard(event) {
     const alt  = athlete?.flag?.alt || '';
     return href
       ? `<img class="ts-flag" src="${href}" alt="${alt}" onerror="this.style.display='none'">`
-      : `<span class="ts-flag-ph"></span>`;
+      : `<div class="ts-flag-ph"></div>`;
   };
 
   const playerName = (comp) => {
@@ -1029,65 +1028,68 @@ function renderTennisCard(event) {
   const p2 = t.competitors[1];
   if (!p1 || !p2) return '';
 
-  // Build set columns from linescores
-  const maxSets = Math.max(
-    (p1.linescores || []).length,
-    (p2.linescores || []).length
-  );
-  const hasSets = maxSets > 0;
+  // Build set display — prefer Sofascore periods, fall back to ESPN linescores
+  const sets = sofaSets || (() => {
+    const max = Math.max((p1.linescores||[]).length, (p2.linescores||[]).length);
+    return Array.from({ length: max }, (_, i) => ({
+      h: parseInt((p1.linescores||[])[i]?.value ?? ''),
+      a: parseInt((p2.linescores||[])[i]?.value ?? ''),
+      tb_h: (p1.linescores||[])[i]?.tiebreakScore ?? null,
+      tb_a: (p2.linescores||[])[i]?.tiebreakScore ?? null,
+      current: isLive && i === max - 1,
+    }));
+  })();
+  const maxSets = sets.length;
 
-  const setHeaders = hasSets
-    ? Array.from({ length: maxSets }, (_, i) => `<th>S${i + 1}</th>`).join('')
-    : '';
+  const setSpans = (isP1) =>
+    sets.map((s, i) => {
+      const mine = isP1 ? s.h : s.a;
+      const opp  = isP1 ? s.a : s.h;
+      const tb   = isP1 ? s.tb_h : s.tb_a;
+      if (mine == null || isNaN(mine)) return `<span class="ts-set" style="opacity:0">0</span>`;
+      const tbEl = tb != null ? `<sup>${tb}</sup>` : '';
+      const cls  = s.current ? 'ts-set' : (mine > opp ? 'ts-set won' : 'ts-set');
+      return `<span class="${cls}">${mine}${tbEl}</span>`;
+    }).join('');
 
-  const setCell = (comp, other, i) => {
-    const lines = comp.linescores || [];
-    const val = lines[i]?.value ?? '';
-    if (val === '') return `<td class="ts-set">—</td>`;
-    const mine = parseInt(val);
-    const opp  = parseInt((other.linescores || [])[i]?.value ?? 0);
-    const isCurrentSet = isLive && i === maxSets - 1;
-    const cls = isCurrentSet ? 'ts-set current' : (mine > opp ? 'ts-set won' : 'ts-set');
-    return `<td class="${cls}">${mine}</td>`;
-  };
+  const isP1Serving = sofa
+    ? sofa.serving === 1
+    : p1.serving;
 
-  const playerRow = (comp, other) => {
-    const setCells = hasSets
-      ? Array.from({ length: maxSets }, (_, i) => setCell(comp, other, i)).join('')
-      : '';
-    const ptsCell = (isLive && gameScore && comp.serving)
-      ? `<td class="ts-pts">${gameScore}</td>`
-      : (isLive && gameScore ? `<td class="ts-pts" style="opacity:0.3">—</td>` : '');
+  const showPts = isLive && (p1Pts || p2Pts);
+
+  const playerRow = (comp, isP1) => {
+    const seed = comp.athlete?.rank || comp.seed || '';
+    const isServing = isLive && (isP1 ? isP1Serving : !isP1Serving);
+    const myPts = isP1 ? p1Pts : p2Pts;
+    const ptsEl = showPts ? `<span class="ts-pts">${myPts || ''}</span>` : '';
+    const ball  = isServing ? `<span class="ts-ball">🎾</span>` : `<span class="ts-ball"></span>`;
     return `
-      <tr>
-        <td class="ts-name${comp.winner ? ' winner' : ''}">
-          ${flagEl(comp.athlete)}${playerName(comp)}${comp.serving ? '<span class="ts-serving">&#9679;</span>' : ''}
-        </td>
-        ${setCells}
-        ${ptsCell}
-      </tr>`;
+      <div class="tennis-row">
+        ${flagEl(comp.athlete)}
+        ${seed ? `<span class="ts-seed">${seed}</span>` : '<span class="ts-seed"></span>'}
+        <span class="ts-name${comp.winner ? ' winner' : ''}">${playerName(comp)}</span>
+        ${ball}
+        <div class="ts-scores">
+          ${maxSets > 0 ? setSpans(isP1) : ''}
+          ${ptsEl}
+        </div>
+      </div>`;
   };
 
-  const ptsHeader = (isLive && gameScore) ? '<th>PTS</th>' : '';
+  const metaLeft = [t.grouping, t.court].filter(Boolean).join(' · ');
+  const statusRight = isLive
+    ? '<div class="live-badge"><div class="live-dot"></div>LIVE</div>'
+    : `<span style="font-size:11px;color:var(--muted)">${statusLabel}</span>`;
 
   return `
     <div class="card ${isLive ? 'is-live' : ''}">
       <div class="card-top">
-        ${isLive ? '<div class="live-badge"><div class="live-dot"></div>LIVE</div>' : '<div></div>'}
-        <div class="game-status">${statusLabel}</div>
+        <span class="tennis-meta-inline">${metaLeft}</span>
+        ${statusRight}
       </div>
-      <div class="tennis-meta">
-        <span class="tennis-tournament">${t.tournament}</span>
-        <span class="tennis-grouping">${t.grouping}</span>
-      </div>
-      <table class="tennis-score-table">
-        ${(hasSets || (isLive && gameScore)) ? `<thead><tr><th class="th-name"></th>${setHeaders}${ptsHeader}</tr></thead>` : ''}
-        <tbody>
-          ${playerRow(p1, p2)}
-          ${playerRow(p2, p1)}
-        </tbody>
-      </table>
-      ${t.court ? `<div class="tennis-court">${t.court}</div>` : ''}
+      ${playerRow(p1, true)}
+      ${playerRow(p2, false)}
     </div>`;
 }
 
@@ -1333,6 +1335,52 @@ function renderSoccerStats(data) {
   return `<div><div class="goals-title">Goals</div>${rows}</div>`;
 }
 
+// ── Sofascore tennis live data ─────────────────────────────────────────────
+
+function sofaLastName(name) {
+  if (!name) return '';
+  // Handles "Djokovic N.", "N. Djokovic", "Novak Djokovic"
+  const parts = name.trim().split(/\s+/);
+  const long = parts.filter(p => p.length > 2 && !p.includes('.'));
+  const base = long.length ? long[long.length - 1] : parts[parts.length - 1];
+  return base.toLowerCase().replace(/[^a-z]/g, '');
+}
+
+const SOFA_PTS = ['0', '15', '30', '40']; // Sofascore uses 0-3 index
+
+function sofaPts(val) {
+  if (val == null) return '';
+  if (val === 50) return 'Ad';
+  return SOFA_PTS[val] ?? String(val);
+}
+
+async function fetchSofascoreLive() {
+  try {
+    const r = await fetch('https://api.sofascore.com/api/v1/sport/tennis/events/live');
+    if (!r.ok) return null;
+    const d = await r.json();
+    const map = {};
+    for (const ev of (d.events || [])) {
+      const hKey = sofaLastName(ev.homeTeam?.name);
+      const aKey = sofaLastName(ev.awayTeam?.name);
+      if (!hKey || !aKey) continue;
+      const payload = {
+        homeScore: ev.homeScore,
+        awayScore: ev.awayScore,
+        serving: ev.firstToServe,  // 1=home, 2=away
+      };
+      map[`${hKey}|${aKey}`] = payload;
+      // Reverse mapping (swap home/away)
+      map[`${aKey}|${hKey}`] = {
+        homeScore: ev.awayScore,
+        awayScore: ev.homeScore,
+        serving: ev.firstToServe === 1 ? 2 : 1,
+      };
+    }
+    return map;
+  } catch (_) { return null; }
+}
+
 // ── Data fetching ──────────────────────────────────────────────────────────
 
 async function fetchTennis(key) {
@@ -1373,6 +1421,43 @@ async function fetchTennis(key) {
         }
       }
     }
+    // Enrich live matches with ESPN detail + Sofascore point scores
+    const liveMatches = matches.filter(m => m.status?.type?.state === 'in');
+    if (liveMatches.length > 0) {
+      const summaryBase = SPORTS_MAP[key].summaryBase;
+      const [sofaMap] = await Promise.all([
+        fetchSofascoreLive(),
+        Promise.all(liveMatches.map(async match => {
+          try {
+            const r = await fetch(summaryBase + match.id);
+            if (!r.ok) return;
+            const d = await r.json();
+            const comp = d.competition || d.gamePackage?.competition;
+            const sit  = d.situation || d.gamePackage?.situation || comp?.situation;
+            const richDetail = comp?.status?.type?.detail || d.header?.competitions?.[0]?.status?.type?.detail || '';
+            if (richDetail) match.status = { ...match.status, type: { ...match.status.type, detail: richDetail } };
+            const detailComps = comp?.competitors || d.header?.competitions?.[0]?.competitors;
+            if (detailComps?.length) match._tennis.competitors = detailComps;
+            if (sit) match._tennis.situation = sit;
+          } catch (_) {}
+        })),
+      ]);
+
+      // Match ESPN live events to Sofascore by player last name
+      if (sofaMap) {
+        for (const match of liveMatches) {
+          const comps = match._tennis.competitors;
+          const p1 = comps[0];
+          const p2 = comps[1];
+          const getName = c => c?.athlete?.shortName || c?.athlete?.displayName || '';
+          const k1 = sofaLastName(getName(p1));
+          const k2 = sofaLastName(getName(p2));
+          const sofa = sofaMap[`${k1}|${k2}`];
+          if (sofa) match._tennis.sofa = sofa;
+        }
+      }
+    }
+
     scoreCache[cacheKey] = { events: matches, error: null };
     liveCount[key] = selectedDate === TODAY
       ? matches.filter(m => m.status?.type?.state === 'in').length : 0;
@@ -1506,6 +1591,7 @@ function selectDate(ds) {
 
 function switchTab(key) {
   active = key;
+  localStorage.setItem('active-tab', key);
   expandedIds.clear();
   renderTabs();
   renderContent();
