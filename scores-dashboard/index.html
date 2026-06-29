@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Maddy's Sports Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #0d1117;
@@ -34,7 +37,7 @@
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       min-height: 100vh;
       transition: background 0.2s, color 0.2s;
     }
@@ -63,7 +66,17 @@
 
     .header-right { display: flex; align-items: center; gap: 16px; }
 
-    #last-updated { font-size: 12px; color: rgba(255,255,255,0.65); }
+    #last-updated {
+      font-size: 11px;
+      color: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 20px;
+      padding: 5px 11px;
+      backdrop-filter: blur(4px);
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+    }
 
     .btn {
       background: none;
@@ -255,6 +268,7 @@
     .tab.active {
       color: #ffffff;
       background: linear-gradient(135deg, #6d28d9, #9333ea);
+      padding: 7px 20px 7px 14px;
     }
     .tab.dragging { opacity: 0.3; }
     .tab.drag-over { background: var(--border); color: var(--text); }
@@ -314,7 +328,9 @@
       justify-content: space-between;
       border-bottom: 1px solid var(--border);
       position: relative;
+      background: var(--bg);
     }
+    [data-theme="light"] .card-top { background: #f3f4f6; }
 
     .live-badge {
       display: flex;
@@ -416,7 +432,8 @@
       border-top-color: var(--border);
     }
 
-    .stats-inner { padding: 16px; background: var(--bg); }
+    .stats-inner { padding: 16px; background: #1a2332; }
+    [data-theme="light"] .stats-inner { background: #eef1f6; }
 
     .stats-loading {
       display: flex;
@@ -552,53 +569,59 @@
       display: block;
       margin-top: 1px;
     }
-    .tennis-body {
-      padding: 12px 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
+    /* ── Tennis score table ── */
+    .tennis-score-table {
+      width: 100%;
+      border-collapse: collapse;
+      padding: 0 16px 14px;
+      display: table;
     }
-    .tennis-player {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .tennis-score-table td, .tennis-score-table th {
+      padding: 5px 6px;
+      font-variant-numeric: tabular-nums;
     }
-    .tennis-flag {
-      width: 22px;
-      height: 15px;
-      object-fit: cover;
-      border-radius: 2px;
-      flex-shrink: 0;
-    }
-    .tennis-flag-ph {
-      width: 22px;
-      height: 15px;
-      background: var(--border);
-      border-radius: 2px;
-      flex-shrink: 0;
-    }
-    .tennis-name {
-      flex: 1;
-      font-size: 13px;
-      color: var(--muted);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      min-width: 0;
-    }
-    .tennis-player.winner .tennis-name { color: var(--text); font-weight: 600; }
-    .tennis-serving { font-size: 7px; color: var(--live); flex-shrink: 0; line-height: 1; }
-    .tennis-sets { display: flex; gap: 4px; flex-shrink: 0; }
-    .tennis-set {
-      font-size: 14px;
+    .tennis-score-table th {
+      font-size: 10px;
       font-weight: 600;
       color: var(--muted);
-      min-width: 16px;
       text-align: center;
-      font-variant-numeric: tabular-nums;
-      line-height: 1;
+      opacity: 0.6;
+      letter-spacing: 0.4px;
+      padding-bottom: 4px;
     }
-    .tennis-player.winner .tennis-set.won { color: var(--accent); }
+    .tennis-score-table th.th-name { text-align: left; }
+    .ts-flag {
+      width: 22px; height: 15px;
+      object-fit: cover; border-radius: 2px;
+      vertical-align: middle; margin-right: 6px;
+    }
+    .ts-flag-ph {
+      display: inline-block;
+      width: 22px; height: 15px;
+      background: var(--border); border-radius: 2px;
+      vertical-align: middle; margin-right: 6px;
+    }
+    .ts-name {
+      font-size: 13px; color: var(--muted);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      max-width: 120px;
+    }
+    .ts-name.winner { color: var(--text); font-weight: 600; }
+    .ts-serving { font-size: 7px; color: var(--live); vertical-align: middle; margin-left: 4px; }
+    .ts-set {
+      font-size: 15px; font-weight: 600;
+      color: var(--muted); text-align: center; min-width: 22px;
+    }
+    .ts-set.won { color: var(--text); }
+    .ts-set.current { color: var(--accent); font-weight: 700; }
+    .ts-pts {
+      font-size: 13px; font-weight: 700;
+      color: var(--accent); text-align: center; min-width: 28px;
+    }
+    .tennis-court {
+      padding: 0 16px 10px;
+      font-size: 10px; color: var(--muted); opacity: 0.7;
+    }
     .tennis-court {
       padding: 0 16px 10px;
       font-size: 10px;
@@ -706,7 +729,16 @@
       h1 { font-size: 18px; position: static; transform: none; color: #ffffff; }
       #last-updated { display: none; }
       .header-right { gap: 10px; }
-      nav { padding: 12px 12px; }
+      .nav-wrap { position: relative; }
+      .nav-wrap::after {
+        content: '';
+        position: absolute;
+        top: 0; right: 0;
+        width: 48px; height: 100%;
+        background: linear-gradient(to right, transparent, var(--surface));
+        pointer-events: none;
+      }
+      nav { padding: 10px 12px; justify-content: flex-start; -webkit-overflow-scrolling: touch; }
       .tab { font-size: 13px; padding: 11px 8px 11px 4px; }
       .date-strip { padding: 8px 12px; }
       main { padding: 14px 12px; }
@@ -736,7 +768,7 @@
   </div>
 </header>
 
-<nav id="tabs"></nav>
+<div class="nav-wrap"><nav id="tabs"></nav></div>
 <div class="date-strip" id="date-strip"></div>
 
 <main>
@@ -964,16 +996,25 @@ function renderTennisCard(event) {
   const state = event.status.type.state;
   const isLive = state === 'in';
   const isPre  = state === 'pre';
-  const detail = isPre
-    ? fmtSydney(event.date)
-    : (event.status.type.shortDetail || event.status.type.detail || '');
+  const fullDetail  = event.status.type.detail || '';
+  const shortDetail = event.status.type.shortDetail || fullDetail;
+
+  // Try to extract current game point score (e.g. "40-30", "Deuce", "Ad")
+  // ESPN often includes it in the detail string like "2nd Set, 4-3 (40-30)"
+  let gameScore = '';
+  if (isLive) {
+    const ptMatch = fullDetail.match(/\(([^)]+)\)\s*$/) || fullDetail.match(/(Deuce|Ad[- ]\w+|[0-9A-]+[-–][0-9A]+)\s*$/i);
+    if (ptMatch) gameScore = ptMatch[1];
+  }
+
+  const statusLabel = isPre ? fmtSydney(event.date) : shortDetail;
 
   const flagEl = (athlete) => {
     const href = athlete?.flag?.href;
     const alt  = athlete?.flag?.alt || '';
     return href
-      ? `<img class="tennis-flag" src="${href}" alt="${alt}" onerror="this.style.display='none'">`
-      : `<div class="tennis-flag-ph"></div>`;
+      ? `<img class="ts-flag" src="${href}" alt="${alt}" onerror="this.style.display='none'">`
+      : `<span class="ts-flag-ph"></span>`;
   };
 
   const playerName = (comp) => {
@@ -984,43 +1025,68 @@ function renderTennisCard(event) {
     return '?';
   };
 
-  const setsEl = (comp, other) =>
-    (comp.linescores || []).map((s, i) => {
-      const mine = parseInt(s.value);
-      const opp  = parseInt((other.linescores || [])[i]?.value ?? 0);
-      return `<span class="tennis-set${mine > opp ? ' won' : ''}">${mine}</span>`;
-    }).join('');
-
-  const playerRow = (comp, other) => {
-    const isWinner  = comp.winner;
-    const isServing = comp.serving;
-    return `
-      <div class="tennis-player${isWinner ? ' winner' : ''}">
-        ${flagEl(comp.athlete)}
-        <span class="tennis-name">${playerName(comp)}</span>
-        ${isServing ? '<span class="tennis-serving">&#9679;</span>' : ''}
-        <div class="tennis-sets">${setsEl(comp, other)}</div>
-      </div>`;
-  };
-
   const p1 = t.competitors[0];
   const p2 = t.competitors[1];
   if (!p1 || !p2) return '';
+
+  // Build set columns from linescores
+  const maxSets = Math.max(
+    (p1.linescores || []).length,
+    (p2.linescores || []).length
+  );
+  const hasSets = maxSets > 0;
+
+  const setHeaders = hasSets
+    ? Array.from({ length: maxSets }, (_, i) => `<th>S${i + 1}</th>`).join('')
+    : '';
+
+  const setCell = (comp, other, i) => {
+    const lines = comp.linescores || [];
+    const val = lines[i]?.value ?? '';
+    if (val === '') return `<td class="ts-set">—</td>`;
+    const mine = parseInt(val);
+    const opp  = parseInt((other.linescores || [])[i]?.value ?? 0);
+    const isCurrentSet = isLive && i === maxSets - 1;
+    const cls = isCurrentSet ? 'ts-set current' : (mine > opp ? 'ts-set won' : 'ts-set');
+    return `<td class="${cls}">${mine}</td>`;
+  };
+
+  const playerRow = (comp, other) => {
+    const setCells = hasSets
+      ? Array.from({ length: maxSets }, (_, i) => setCell(comp, other, i)).join('')
+      : '';
+    const ptsCell = (isLive && gameScore && comp.serving)
+      ? `<td class="ts-pts">${gameScore}</td>`
+      : (isLive && gameScore ? `<td class="ts-pts" style="opacity:0.3">—</td>` : '');
+    return `
+      <tr>
+        <td class="ts-name${comp.winner ? ' winner' : ''}">
+          ${flagEl(comp.athlete)}${playerName(comp)}${comp.serving ? '<span class="ts-serving">&#9679;</span>' : ''}
+        </td>
+        ${setCells}
+        ${ptsCell}
+      </tr>`;
+  };
+
+  const ptsHeader = (isLive && gameScore) ? '<th>PTS</th>' : '';
 
   return `
     <div class="card ${isLive ? 'is-live' : ''}">
       <div class="card-top">
         ${isLive ? '<div class="live-badge"><div class="live-dot"></div>LIVE</div>' : '<div></div>'}
-        <div class="game-status">${detail}</div>
+        <div class="game-status">${statusLabel}</div>
       </div>
       <div class="tennis-meta">
         <span class="tennis-tournament">${t.tournament}</span>
         <span class="tennis-grouping">${t.grouping}</span>
       </div>
-      <div class="tennis-body">
-        ${playerRow(p1, p2)}
-        ${playerRow(p2, p1)}
-      </div>
+      <table class="tennis-score-table">
+        ${(hasSets || (isLive && gameScore)) ? `<thead><tr><th class="th-name"></th>${setHeaders}${ptsHeader}</tr></thead>` : ''}
+        <tbody>
+          ${playerRow(p1, p2)}
+          ${playerRow(p2, p1)}
+        </tbody>
+      </table>
       ${t.court ? `<div class="tennis-court">${t.court}</div>` : ''}
     </div>`;
 }
@@ -1365,7 +1431,7 @@ async function fetchActive() {
 
 function updateTimestamp() {
   const t = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  document.getElementById('last-updated').textContent = `Updated ${t}`;
+  document.getElementById('last-updated').textContent = `⏱ ${t}`;
 }
 
 // ── Countdown ──────────────────────────────────────────────────────────────
