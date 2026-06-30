@@ -43,7 +43,7 @@
     }
 
     header {
-      padding: 18px 28px;
+      padding: 18px 36px;
       border-bottom: none;
       display: flex;
       align-items: center;
@@ -369,28 +369,23 @@
     }
 
     .card-body {
-      padding: 16px;
+      padding: 16px 16px 28px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 0;
     }
 
-    .team-block {
+    /* Outer team side: logo + name stacked, pushed to the edges */
+    .team-side {
       flex: 1;
       display: flex;
       align-items: center;
       gap: 10px;
+      min-width: 0;
     }
-    .team-block.home { flex-direction: row-reverse; }
+    .team-side.home { flex-direction: row-reverse; }
 
-    .team-logo-wrap {
-      width: 42px;
-      flex-shrink: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-    }
+    .team-logo-wrap { flex-shrink: 0; position: relative; }
     .team-logo { width: 42px; height: 42px; object-fit: contain; }
     .team-logo-ph {
       width: 42px; height: 42px;
@@ -400,20 +395,37 @@
       font-size: 11px; font-weight: 700; color: var(--muted);
     }
 
-    .team-info { flex: 1; }
-    .team-block.away .team-info { text-align: left; }
-    .team-block.home .team-info { text-align: right; }
+    .team-name-wrap { min-width: 0; }
+    .team-side.away .team-name-wrap { text-align: left; }
+    .team-side.home .team-name-wrap { text-align: right; }
 
-    .team-abbr { font-size: 12px; font-weight: 600; color: var(--muted); }
-    .team-ha { font-size: 10px; color: var(--muted); opacity: 0.7; letter-spacing: 0.3px; }
+    .team-abbr { font-size: 12px; font-weight: 600; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .team-ha {
+      position: absolute;
+      top: calc(100% + 5px);
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 10px; color: var(--muted); opacity: 0.7;
+      letter-spacing: 0.3px; white-space: nowrap;
+    }
+
+    /* Center score block */
+    .score-center {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+      padding: 0 12px;
+    }
     .team-score {
       font-size: 28px; font-weight: 800;
       font-variant-numeric: tabular-nums;
       line-height: 1.1;
-      filter: none;
     }
     .team-score.dim { color: var(--muted); }
-    .divider { font-size: 12px; color: var(--border); padding: 0 4px; flex-shrink: 0; }
+    .score-sep { font-size: 20px; font-weight: 300; color: var(--border); }
+    .pen-bracket { font-size: 15px; font-weight: 300; color: var(--muted); letter-spacing: 0.5px; margin: 0 6px; }
+    .divider { display: none; }
 
     /* ── Stats toggle hint ── */
     .stats-hint {
@@ -719,7 +731,7 @@
       .date-strip { padding: 8px 12px; }
       main { padding: 14px 12px; }
       .grid { grid-template-columns: 1fr; }
-      .card-body { padding: 14px 12px; gap: 6px; }
+      .card-body { padding: 14px 12px 32px; gap: 6px; }
       .team-logo, .team-logo-ph, .team-logo-wrap { width: 36px; }
       .team-logo, .team-logo-ph { height: 36px; }
       .team-score { font-size: 24px; }
@@ -1108,12 +1120,33 @@ function renderCard(event, sportKey) {
 
   const awayScore = (away.score !== undefined && away.score !== '') ? parseInt(away.score) : null;
   const homeScore = (home.score !== undefined && home.score !== '') ? parseInt(home.score) : null;
-  const awayWins  = isFinal && awayScore !== null && homeScore !== null && awayScore > homeScore;
-  const homeWins  = isFinal && awayScore !== null && homeScore !== null && homeScore > awayScore;
+  // Use winner field directly — handles penalty shootouts where scores are equal
+  const awayWins  = isFinal && (away.winner === true || (!away.winner && !home.winner && awayScore !== null && homeScore !== null && awayScore > homeScore));
+  const homeWins  = isFinal && (home.winner === true || (!away.winner && !home.winner && homeScore !== null && awayScore !== null && homeScore > awayScore));
 
-  const scoreEl = (score, wins) => {
+  // Penalty shootout: detect from status detail and extract per-team pen scores from notes
+  const statusDetail = event.status.type.detail || event.status.type.shortDetail || '';
+  const isPens = isFinal && /pen/i.test(statusDetail);
+  let awayPen = null, homePen = null;
+  if (isPens) {
+    const penNote = (comp.notes || []).find(n => /penalt/i.test(n.text || ''))?.text || '';
+    const penMatch = penNote.match(/(\d+)[–\-](\d+)\s+on\s+penalt/i);
+    if (penMatch) {
+      // First number belongs to the winner, second to the loser
+      const winPen = parseInt(penMatch[1]);
+      const losePen = parseInt(penMatch[2]);
+      awayPen = awayWins ? winPen : losePen;
+      homePen = homeWins ? winPen : losePen;
+    }
+  }
+
+  const scoreEl = (score, pen, wins, isHome = false) => {
     const cls = isFinal && !wins ? 'dim' : '';
-    return `<div class="team-score ${cls}">${score !== null ? score : '--'}</div>`;
+    const penEl = pen !== null ? `<span class="pen-bracket">(${pen})</span>` : '';
+    const main = isPre ? '–' : `${score !== null ? score : '--'}`;
+    return isHome
+      ? `<div class="team-score ${cls}">${penEl}${main}</div>`
+      : `<div class="team-score ${cls}">${main}${penEl}</div>`;
   };
 
   const logoEl = (team) => team.logo
@@ -1139,25 +1172,27 @@ function renderCard(event, sportKey) {
         <div class="game-status">${detail}</div>
       </div>
       <div class="card-body">
-        <div class="team-block away">
+        <div class="team-side away">
           <div class="team-logo-wrap">
             ${logoEl(away.team)}
-            <div class="team-ha">Away</div>
+            <span class="team-ha">Away</span>
           </div>
-          <div class="team-info">
+          <div class="team-name-wrap">
             <div class="team-abbr">${away.team.abbreviation}</div>
-            ${scoreEl(awayScore, awayWins)}
           </div>
         </div>
-        <div class="divider">&#8212;</div>
-        <div class="team-block home">
+        <div class="score-center">
+          ${scoreEl(awayScore, awayPen, awayWins, false)}
+          <span class="score-sep">:</span>
+          ${scoreEl(homeScore, homePen, homeWins, true)}
+        </div>
+        <div class="team-side home">
           <div class="team-logo-wrap">
             ${logoEl(home.team)}
-            <div class="team-ha">Home</div>
+            <span class="team-ha">Home</span>
           </div>
-          <div class="team-info">
+          <div class="team-name-wrap">
             <div class="team-abbr">${home.team.abbreviation}</div>
-            ${scoreEl(homeScore, homeWins)}
           </div>
         </div>
       </div>
