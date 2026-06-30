@@ -104,106 +104,6 @@
     /* ── Filter bar ── */
 
     /* ── Add-sport tab button ── */
-    .tab-add {
-      background: none;
-      border: 1px dashed var(--border);
-      border-radius: 6px;
-      color: var(--muted);
-      font-size: 18px;
-      line-height: 1;
-      padding: 6px 12px;
-      cursor: pointer;
-      margin-left: 4px;
-      transition: color 0.15s, border-color 0.15s;
-      align-self: center;
-    }
-    .tab-add:hover { color: var(--accent); border-color: var(--accent); }
-
-    /* ── Sports modal ── */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.55);
-      z-index: 200;
-      align-items: center;
-      justify-content: center;
-    }
-    .modal-overlay.open { display: flex; }
-    .modal {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      width: 400px;
-      max-width: 92vw;
-      max-height: 80vh;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-    }
-    .modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18px 22px 14px;
-      border-bottom: 1px solid var(--border);
-      flex-shrink: 0;
-    }
-    .modal-header h2 { font-size: 15px; font-weight: 700; }
-    .modal-close {
-      background: none;
-      border: none;
-      color: var(--muted);
-      font-size: 22px;
-      cursor: pointer;
-      padding: 0;
-      line-height: 1;
-    }
-    .modal-close:hover { color: var(--text); }
-    .modal-body { overflow-y: auto; padding: 16px 22px 20px; flex: 1; }
-    .sport-category { margin-bottom: 18px; }
-    .sport-category:last-child { margin-bottom: 0; }
-    .sport-category-label {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.6px;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 4px;
-    }
-    .sport-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 9px 0;
-      border-bottom: 1px solid var(--border);
-      cursor: pointer;
-    }
-    .sport-row:last-child { border-bottom: none; }
-    .sport-row-name { font-size: 13px; color: var(--muted); transition: color 0.15s; }
-    .sport-row-name.on { color: var(--text); font-weight: 600; }
-    .sport-row:hover .sport-row-name { color: var(--text); }
-    .sport-mini-track {
-      width: 30px;
-      height: 17px;
-      border-radius: 9px;
-      background: var(--border);
-      position: relative;
-      transition: background 0.2s;
-      flex-shrink: 0;
-    }
-    .sport-mini-track.on { background: var(--live); }
-    .sport-mini-thumb {
-      width: 11px;
-      height: 11px;
-      border-radius: 50%;
-      background: #fff;
-      position: absolute;
-      top: 3px;
-      left: 3px;
-      transition: transform 0.2s;
-    }
-    .sport-mini-track.on .sport-mini-thumb { transform: translateX(13px); }
 
     /* ── Theme toggle ── */
     .theme-toggle {
@@ -237,53 +137,80 @@
     [data-theme="light"] .theme-thumb { transform: translateX(16px); }
 
     /* ── Tabs ── */
-    nav {
-      padding: 10px 28px;
+    /* ── Category nav ── */
+    .cat-nav-wrap {
+      background: var(--surface);
       border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 20;
+    }
+    #cat-tabs {
       display: flex;
-      gap: 4px;
       align-items: center;
-      justify-content: center;
+      padding: 0 36px;
+      gap: 0;
       overflow-x: auto;
       scrollbar-width: none;
-      background: var(--surface);
     }
-    nav::-webkit-scrollbar { display: none; }
+    #cat-tabs::-webkit-scrollbar { display: none; }
 
-    .tab {
+    .cat-tab {
       background: none;
       border: none;
-      border-radius: 20px;
+      border-bottom: 2px solid transparent;
       color: var(--muted);
       font-size: 13px;
-      font-weight: 500;
-      padding: 7px 14px 7px 10px;
+      font-weight: 600;
+      padding: 14px 18px;
       cursor: pointer;
+      white-space: nowrap;
       display: flex;
       align-items: center;
-      gap: 6px;
-      transition: color 0.15s, background 0.15s;
-      user-select: none;
+      gap: 7px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .cat-tab:hover { color: var(--text); }
+    .cat-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .cat-tab .cat-live {
+      font-size: 10px; font-weight: 700;
+      background: var(--live); color: #fff;
+      border-radius: 10px; padding: 1px 5px;
+    }
+
+    /* ── Page layout ── */
+    .page-body { display: flex; align-items: flex-start; }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 220px;
+      flex-shrink: 0;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      min-height: calc(100vh - 60px);
+      position: sticky;
+      top: 49px;
+      overflow-y: auto;
+      padding: 12px 0;
+    }
+    .sidebar-section-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.8px;
+      color: var(--muted); text-transform: uppercase;
+      padding: 12px 20px 6px;
+    }
+    .sidebar-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 9px 20px;
+      font-size: 13px; font-weight: 500; color: var(--muted);
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: color 0.12s, background 0.12s, border-color 0.12s;
       white-space: nowrap;
     }
-    .tab:hover { color: var(--text); background: var(--border); }
-    .tab.active {
-      color: #ffffff;
-      background: linear-gradient(135deg, #6d28d9, #9333ea);
-      padding: 7px 20px 7px 14px;
+    .sidebar-item:hover { color: var(--text); background: var(--bg); }
+    .sidebar-item.active {
+      color: var(--text); font-weight: 600;
+      border-left-color: var(--accent);
+      background: var(--bg);
     }
-    .tab.dragging { opacity: 0.3; }
-    .tab.drag-over { background: var(--border); color: var(--text); }
-
-    .drag-handle {
-      font-size: 15px;
-      color: var(--border);
-      cursor: grab;
-      line-height: 1;
-      transition: color 0.15s;
-    }
-    .tab:hover .drag-handle { color: var(--muted); }
-    .tab.active .drag-handle { color: #ffffff; opacity: 0.5; }
 
     .live-count {
       display: inline-flex;
@@ -293,17 +220,17 @@
       color: #fff;
       font-size: 10px;
       font-weight: 700;
-      width: 16px;
+      min-width: 16px;
       height: 16px;
-      border-radius: 50%;
-    }
-    .tab.active .live-count {
-      background: #ffffff;
-      color: #6d28d9;
+      border-radius: 8px;
+      padding: 0 4px;
     }
 
+    /* ── Page main ── */
+    .page-main { flex: 1; min-width: 0; }
+
     /* ── Main ── */
-    main { padding: 28px 28px; max-width: 1600px; }
+    main { padding: 24px 28px; }
 
     .grid {
       display: grid;
@@ -698,18 +625,47 @@
     .ring-fill { stroke: var(--accent); stroke-linecap: round; transition: stroke-dashoffset 0.9s linear; }
 
     /* ── Responsive ── */
-    main { width: 100%; margin: 0 auto; }
-
     @media (max-width: 1200px) {
       .grid { grid-template-columns: repeat(3, 1fr); }
     }
 
     @media (max-width: 900px) {
       header { padding: 14px 20px; }
-      nav { padding: 0 20px; }
+      #cat-tabs { padding: 0 16px; }
       .date-strip { padding: 8px 20px; }
-      main { padding: 18px 20px; }
+      main { padding: 18px 16px; }
       .grid { grid-template-columns: repeat(2, 1fr); }
+      .sidebar { width: 180px; }
+    }
+
+    @media (max-width: 700px) {
+      /* Sidebar collapses into a horizontal league strip */
+      .page-body { flex-direction: column; }
+      .sidebar {
+        width: 100%; min-height: unset;
+        position: static;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 8px 12px;
+        display: flex; flex-direction: row;
+        gap: 6px; overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .sidebar::-webkit-scrollbar { display: none; }
+      .sidebar-section-label { display: none; }
+      .sidebar-item {
+        border-left: none;
+        border-radius: 20px;
+        padding: 6px 14px;
+        background: none;
+        flex-shrink: 0;
+      }
+      .sidebar-item.active {
+        background: linear-gradient(135deg, #6d28d9, #9333ea);
+        color: #fff;
+        border-left: none;
+      }
+      .sidebar-item.active .live-count { background: #fff; color: #6d28d9; }
     }
 
     @media (max-width: 600px) {
@@ -717,17 +673,8 @@
       h1 { font-size: 18px; position: static; transform: none; color: #ffffff; }
       #last-updated { display: none; }
       .header-right { gap: 10px; }
-      .nav-wrap { position: relative; }
-      .nav-wrap::after {
-        content: '';
-        position: absolute;
-        top: 0; right: 0;
-        width: 48px; height: 100%;
-        background: linear-gradient(to right, transparent, var(--surface));
-        pointer-events: none;
-      }
-      nav { padding: 10px 12px; justify-content: flex-start; -webkit-overflow-scrolling: touch; }
-      .tab { font-size: 13px; padding: 11px 8px 11px 4px; }
+      #cat-tabs { padding: 0 8px; }
+      .cat-tab { padding: 12px 12px; font-size: 12px; }
       .date-strip { padding: 8px 12px; }
       main { padding: 14px 12px; }
       .grid { grid-template-columns: 1fr; }
@@ -736,8 +683,6 @@
       .team-logo, .team-logo-ph { height: 36px; }
       .team-score { font-size: 24px; }
       .stats-inner { padding: 12px; }
-      .modal-overlay.open { align-items: flex-end; }
-      .modal { max-width: 100%; border-radius: 16px 16px 0 0; max-height: 85vh; }
     }
   </style>
 </head>
@@ -756,13 +701,15 @@
   </div>
 </header>
 
-<div class="nav-wrap"><nav id="tabs"></nav></div>
-<div class="date-strip" id="date-strip"></div>
+<div class="cat-nav-wrap"><nav id="cat-tabs"></nav></div>
 
-
-<main>
-  <div id="content"></div>
-  <div class="countdown" id="countdown-wrap">
+<div class="page-body">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="page-main">
+    <div class="date-strip" id="date-strip"></div>
+    <main>
+      <div id="content"></div>
+      <div class="countdown" id="countdown-wrap">
     <div class="countdown-ring">
       <svg width="18" height="18" viewBox="0 0 18 18">
         <circle class="ring-bg" cx="9" cy="9" r="7"/>
@@ -773,6 +720,8 @@
     <span id="countdown-text">Refreshing in 30s</span>
   </div>
 </main>
+  </div><!-- .page-main -->
+</div><!-- .page-body -->
 
 <script>
 const PRESET_SPORTS = {
@@ -807,9 +756,24 @@ function buildSportsMap(keys) {
   return map;
 }
 
-const DEFAULT_SPORT_KEYS = ['fifa', 'nba', 'wnba'];
-let activeSportKeys = JSON.parse(localStorage.getItem('active-sports') || 'null') || [...DEFAULT_SPORT_KEYS];
+const CATEGORY_ICONS = {
+  'Basketball': '🏀', 'Soccer': '⚽', 'Tennis': '🎾',
+  'American Football': '🏈', 'Baseball': '⚾', 'Ice Hockey': '🏒',
+};
+
+const activeSportKeys = Object.keys(PRESET_SPORTS);
 let SPORTS_MAP = buildSportsMap(activeSportKeys);
+
+function getActiveCategories() {
+  const cats = {};
+  for (const key of activeSportKeys) {
+    const p = PRESET_SPORTS[key];
+    if (!p) continue;
+    if (!cats[p.category]) cats[p.category] = [];
+    cats[p.category].push(key);
+  }
+  return cats;
+}
 
 const REFRESH_INTERVAL = 30;
 
@@ -831,23 +795,23 @@ function addDays(dateStr, n) {
 const TODAY = getSydneyDateStr(new Date());
 let selectedDate = TODAY;
 
-let sportOrder = (() => {
-  const saved = JSON.parse(localStorage.getItem('sport-order') || 'null');
-  if (saved) {
-    const filtered = saved.filter(k => activeSportKeys.includes(k));
-    const missing = activeSportKeys.filter(k => !filtered.includes(k));
-    return [...filtered, ...missing];
-  }
-  return [...activeSportKeys];
-})();
+const sportOrder = [...activeSportKeys];
+
 const savedActive = localStorage.getItem('active-tab');
 let active = (savedActive && sportOrder.includes(savedActive)) ? savedActive : sportOrder[0];
+
+// Derive activeCategory from the active league
+let activeCategory = (() => {
+  const saved = localStorage.getItem('active-category');
+  const cats = getActiveCategories();
+  if (saved && cats[saved]) return saved;
+  return PRESET_SPORTS[active]?.category || Object.keys(cats)[0];
+})();
 let scoreCache = {};
 let statsCache = {};
 let liveCount = {};
 let expandedIds = new Set();
 let loadingStats = new Set();
-let dragSrc = null;
 let secondsLeft = REFRESH_INTERVAL;
 let timer;
 
@@ -870,73 +834,57 @@ function fmtSydney(isoString) {
   });
 }
 
-// ── Drag & Drop tabs ───────────────────────────────────────────────────────
-
-function tabDragStart(e, key) {
-  dragSrc = key;
-  e.dataTransfer.effectAllowed = 'move';
-  e.dataTransfer.setData('text/plain', key);
-  setTimeout(() => {
-    const t = document.querySelector(`.tab[data-key="${key}"]`);
-    if (t) t.classList.add('dragging');
-  }, 0);
-}
-
-function tabDragOver(e, key) {
-  e.preventDefault();
-  e.dataTransfer.dropEffect = 'move';
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('drag-over'));
-  if (key !== dragSrc) {
-    const t = document.querySelector(`.tab[data-key="${key}"]`);
-    if (t) t.classList.add('drag-over');
-  }
-}
-
-function tabDragLeave(e) {
-  e.currentTarget.classList.remove('drag-over');
-}
-
-function tabDrop(e, key) {
-  e.preventDefault();
-  document.querySelectorAll('.tab').forEach(t => {
-    t.classList.remove('drag-over', 'dragging');
-  });
-  if (!dragSrc || dragSrc === key) { dragSrc = null; return; }
-  const from = sportOrder.indexOf(dragSrc);
-  const to   = sportOrder.indexOf(key);
-  sportOrder.splice(from, 1);
-  sportOrder.splice(to, 0, dragSrc);
-  localStorage.setItem('sport-order', JSON.stringify(sportOrder));
-  dragSrc = null;
-  renderTabs();
-}
-
-function tabDragEnd() {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('drag-over', 'dragging'));
-  dragSrc = null;
-}
-
-// ── Tabs ───────────────────────────────────────────────────────────────────
+// ── Navigation rendering ───────────────────────────────────────────────────
 
 function renderTabs() {
-  document.getElementById('tabs').innerHTML = sportOrder.map(key => {
-    const s = SPORTS_MAP[key];
-    if (!s) return '';
-    const count = liveCount[key] || 0;
-    const badge = count > 0 ? `<span class="live-count">${count}</span>` : '';
-    return `
-      <button class="tab ${key === active ? 'active' : ''}" data-key="${key}"
-        onclick="switchTab('${key}')"
-        draggable="true"
-        ondragstart="tabDragStart(event,'${key}')"
-        ondragover="tabDragOver(event,'${key}')"
-        ondragleave="tabDragLeave(event)"
-        ondrop="tabDrop(event,'${key}')"
-        ondragend="tabDragEnd()">
-        <span class="drag-handle" title="Drag to reorder">&#8801;</span>
-        ${s.label}${badge}
+  renderCategoryTabs();
+  renderSidebar();
+}
+
+function renderCategoryTabs() {
+  const cats = getActiveCategories();
+  document.getElementById('cat-tabs').innerHTML =
+    Object.entries(cats).map(([cat, keys]) => {
+      const totalLive = keys.reduce((n, k) => n + (liveCount[k] || 0), 0);
+      const badge = totalLive > 0 ? `<span class="cat-live">${totalLive}</span>` : '';
+      const icon = CATEGORY_ICONS[cat] || '';
+      return `<button class="cat-tab ${cat === activeCategory ? 'active' : ''}" onclick="switchCategory('${cat}')">
+        ${icon} ${cat}${badge}
       </button>`;
-  }).join('') + `<button class="tab-add" onclick="openSportsModal()" title="Add or remove sports">+</button>`;
+    }).join('') +
+    ``;
+}
+
+function renderSidebar() {
+  const cats = getActiveCategories();
+  const leagues = (cats[activeCategory] || []);
+  document.getElementById('sidebar').innerHTML =
+    `<div class="sidebar-section-label">Leagues</div>` +
+    leagues.map(key => {
+      const s = SPORTS_MAP[key];
+      if (!s) return '';
+      const count = liveCount[key] || 0;
+      const badge = count > 0 ? `<span class="live-count">${count}</span>` : '';
+      return `<div class="sidebar-item ${key === active ? 'active' : ''}" onclick="switchTab('${key}')">
+        <span>${s.label}</span>${badge}
+      </div>`;
+    }).join('');
+}
+
+function switchCategory(cat) {
+  activeCategory = cat;
+  localStorage.setItem('active-category', cat);
+  const cats = getActiveCategories();
+  const leagues = cats[cat] || [];
+  // Restore last selected league for this category, or default to first
+  const savedForCat = localStorage.getItem(`active-tab-${cat}`);
+  active = (savedForCat && leagues.includes(savedForCat)) ? savedForCat : leagues[0];
+  localStorage.setItem('active-tab', active);
+  expandedIds.clear();
+  renderCategoryTabs();
+  renderSidebar();
+  renderContent();
+  if (active && !scoreCache[`${active}-${selectedDate}`]) fetchSport(active).then(() => { renderTabs(); renderContent(); });
 }
 
 // ── Content ────────────────────────────────────────────────────────────────
@@ -1534,7 +1482,10 @@ async function fetchSport(key) {
 }
 
 async function fetchAll() {
-  await Promise.all(Object.keys(SPORTS_MAP).map(fetchSport));
+  // Only fetch leagues in the active category on initial load; others load on demand
+  const cats = getActiveCategories();
+  const primaryKeys = cats[activeCategory] || [];
+  await Promise.all(primaryKeys.map(fetchSport));
   renderTabs();
   renderDateStrip();
   renderContent();
@@ -1627,6 +1578,12 @@ function selectDate(ds) {
 function switchTab(key) {
   active = key;
   localStorage.setItem('active-tab', key);
+  const cat = PRESET_SPORTS[key]?.category;
+  if (cat) {
+    activeCategory = cat;
+    localStorage.setItem('active-category', cat);
+    localStorage.setItem(`active-tab-${cat}`, key);
+  }
   expandedIds.clear();
   renderTabs();
   renderContent();
@@ -1645,62 +1602,6 @@ async function manualRefresh() {
   btn.textContent = 'Refresh';
 }
 
-// ── Sports modal ───────────────────────────────────────────────────────────
-
-function openSportsModal() {
-  renderSportsModal();
-  document.getElementById('sports-modal-overlay').classList.add('open');
-}
-
-function closeSportsModal(e) {
-  if (e && e.target !== document.getElementById('sports-modal-overlay')) return;
-  document.getElementById('sports-modal-overlay').classList.remove('open');
-}
-
-function renderSportsModal() {
-  const activeSet = new Set(activeSportKeys);
-  const categories = {};
-  Object.entries(PRESET_SPORTS).forEach(([key, p]) => {
-    if (!categories[p.category]) categories[p.category] = [];
-    categories[p.category].push({ key, label: p.label });
-  });
-  document.getElementById('sports-modal-body').innerHTML = Object.entries(categories).map(([cat, list]) => `
-    <div class="sport-category">
-      <div class="sport-category-label">${cat}</div>
-      ${list.map(s => {
-        const on = activeSet.has(s.key);
-        return `<div class="sport-row" onclick="toggleSport('${s.key}')">
-          <span class="sport-row-name${on ? ' on' : ''}">${s.label}</span>
-          <div class="sport-mini-track${on ? ' on' : ''}"><div class="sport-mini-thumb"></div></div>
-        </div>`;
-      }).join('')}
-    </div>`).join('');
-}
-
-async function toggleSport(key) {
-  const idx = activeSportKeys.indexOf(key);
-  if (idx === -1) {
-    activeSportKeys.push(key);
-    sportOrder.push(key);
-  } else {
-    if (activeSportKeys.length === 1) return;
-    activeSportKeys.splice(idx, 1);
-    sportOrder.splice(sportOrder.indexOf(key), 1);
-    Object.keys(scoreCache).filter(k => k.startsWith(key + '-')).forEach(k => delete scoreCache[k]);
-    delete liveCount[key];
-    if (active === key) active = sportOrder[0];
-  }
-  SPORTS_MAP = buildSportsMap(activeSportKeys);
-  localStorage.setItem('active-sports', JSON.stringify(activeSportKeys));
-  localStorage.setItem('sport-order', JSON.stringify(sportOrder));
-  renderSportsModal();
-  renderTabs();
-  if (idx === -1) {
-    await fetchSport(key);
-    renderTabs();
-  }
-  renderContent();
-}
 
 // ── Theme ──────────────────────────────────────────────────────────────────
 
@@ -1727,15 +1628,6 @@ document.getElementById('content').innerHTML =
 fetchAll().then(startCountdown);
 </script>
 
-<div class="modal-overlay" id="sports-modal-overlay" onclick="closeSportsModal(event)">
-  <div class="modal">
-    <div class="modal-header">
-      <h2>Manage Sports</h2>
-      <button class="modal-close" onclick="closeSportsModal()">&times;</button>
-    </div>
-    <div class="modal-body" id="sports-modal-body"></div>
-  </div>
-</div>
 
 </body>
 </html>
